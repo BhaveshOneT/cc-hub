@@ -267,7 +267,7 @@ function Window() {
 // ============================================================================
 
 function TeamPhoto() {
-  const texture = useTexture('/wall-art.png')
+  const texture = useTexture(`${import.meta.env.BASE_URL}wall-art.png`)
 
   return (
     <group position={[-1.2, 2.3, -2.44]}>
