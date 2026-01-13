@@ -74,7 +74,7 @@ export const CHAPTER_AGENT: Chapter = {
       wizardTarget: 'center',
       highlight: 'hourglass',
       contextLevel: 10,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'the-loop',
@@ -96,7 +96,7 @@ export const CHAPTER_AGENT: Chapter = {
       wizardTarget: 'grimoire',
       highlight: 'grimoire',
       contextLevel: 12,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'model-is-80',
@@ -112,7 +112,7 @@ export const CHAPTER_AGENT: Chapter = {
       wizardState: 'pointing',
       wizardTarget: 'center',
       contextLevel: 15,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'model-selection',
@@ -127,7 +127,7 @@ export const CHAPTER_AGENT: Chapter = {
       wizardState: 'thinking',
       wizardTarget: 'center',
       contextLevel: 18,
-      duration: 5500,
+      duration: 60000,
     },
   ],
 }
@@ -156,7 +156,7 @@ export const CHAPTER_CONTEXT: Chapter = {
       wizardTarget: 'reservoir',
       highlight: 'reservoir',
       contextLevel: 20,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'context-degrades',
@@ -173,7 +173,7 @@ export const CHAPTER_CONTEXT: Chapter = {
       wizardTarget: 'reservoir',
       highlight: 'reservoir',
       contextLevel: 45,
-      duration: 6500,
+      duration: 60000,
     },
     {
       id: 'claudemd-memory',
@@ -202,7 +202,7 @@ Lint: npm run lint
       wizardTarget: 'grimoire',
       highlight: 'grimoire',
       contextLevel: 25,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'clear-and-compact',
@@ -218,7 +218,7 @@ Lint: npm run lint
       wizardTarget: 'circle',
       highlight: 'circle',
       contextLevel: 30,
-      duration: 6000,
+      duration: 60000,
     },
   ],
 }
@@ -247,7 +247,7 @@ export const CHAPTER_TOOLS: Chapter = {
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 22,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'read-tool',
@@ -260,7 +260,7 @@ export const CHAPTER_TOOLS: Chapter = {
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 25,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'edit-write-tools',
@@ -278,7 +278,7 @@ Edit({
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 28,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'bash-tool',
@@ -295,7 +295,7 @@ Edit({
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 30,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'search-tools',
@@ -312,7 +312,7 @@ Glob({ pattern: "**/*.test.ts" })`,
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 32,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'task-tool',
@@ -329,7 +329,7 @@ Glob({ pattern: "**/*.test.ts" })`,
       wizardTarget: 'artifacts',
       highlight: 'artifacts',
       contextLevel: 35,
-      duration: 6500,
+      duration: 60000,
     },
   ],
 }
@@ -358,7 +358,7 @@ export const CHAPTER_PROMPTING: Chapter = {
       wizardTarget: 'grimoire',
       highlight: 'grimoire',
       contextLevel: 25,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'be-specific',
@@ -369,7 +369,7 @@ export const CHAPTER_PROMPTING: Chapter = {
       wizardState: 'pointing',
       wizardTarget: 'grimoire',
       contextLevel: 28,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'tell-not-to',
@@ -385,7 +385,7 @@ export const CHAPTER_PROMPTING: Chapter = {
       wizardTarget: 'grimoire',
       highlight: 'grimoire',
       contextLevel: 30,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'give-context',
@@ -400,7 +400,7 @@ Keep backwards compatibility with existing callers."`,
       wizardState: 'reading',
       wizardTarget: 'grimoire',
       contextLevel: 32,
-      duration: 6500,
+      duration: 60000,
     },
     {
       id: 'iterate',
@@ -411,7 +411,7 @@ Keep backwards compatibility with existing callers."`,
       wizardState: 'channeling',
       wizardTarget: 'center',
       contextLevel: 35,
-      duration: 6000,
+      duration: 60000,
     },
   ],
 }
@@ -440,7 +440,7 @@ export const CHAPTER_SKILLS: Chapter = {
       wizardTarget: 'wands',
       highlight: 'wands',
       contextLevel: 25,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'skill-structure',
@@ -469,7 +469,7 @@ Format: \`type(scope): description\``,
       wizardTarget: 'wands',
       highlight: 'wands',
       contextLevel: 28,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'progressive-disclosure',
@@ -485,7 +485,7 @@ Format: \`type(scope): description\``,
       wizardTarget: 'wands',
       highlight: 'wands',
       contextLevel: 30,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'skill-examples',
@@ -507,7 +507,7 @@ when reviewing PRs or suggesting improvements.
       wizardTarget: 'wands',
       highlight: 'wands',
       contextLevel: 32,
-      duration: 6500,
+      duration: 60000,
     },
     {
       id: 'skill-triggers',
@@ -524,7 +524,7 @@ when reviewing PRs or suggesting improvements.
       wizardTarget: 'wands',
       highlight: 'wands',
       contextLevel: 35,
-      duration: 6000,
+      duration: 60000,
     },
   ],
 }
@@ -553,7 +553,7 @@ export const CHAPTER_SUBAGENTS: Chapter = {
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 28,
-      duration: 6500,
+      duration: 60000,
     },
     {
       id: 'builtin-spirits',
@@ -569,7 +569,7 @@ export const CHAPTER_SUBAGENTS: Chapter = {
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 30,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'delegation-pattern',
@@ -587,7 +587,7 @@ export const CHAPTER_SUBAGENTS: Chapter = {
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 32,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'context-isolation',
@@ -599,7 +599,7 @@ export const CHAPTER_SUBAGENTS: Chapter = {
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 35,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'custom-familiars',
@@ -626,7 +626,7 @@ You are a security-focused code reviewer. When analyzing:
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 38,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'subagent-patterns',
@@ -642,7 +642,7 @@ You are a security-focused code reviewer. When analyzing:
       wizardTarget: 'summoning',
       highlight: 'summoning',
       contextLevel: 40,
-      duration: 6000,
+      duration: 60000,
     },
   ],
 }
@@ -671,7 +671,7 @@ export const CHAPTER_MCP: Chapter = {
       wizardTarget: 'portal',
       highlight: 'portal',
       contextLevel: 30,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'connecting-services',
@@ -692,7 +692,7 @@ claude mcp add --transport http github \\
       wizardTarget: 'portal',
       highlight: 'portal',
       contextLevel: 33,
-      duration: 7000,
+      duration: 60000,
     },
     {
       id: 'portal-examples',
@@ -709,7 +709,7 @@ claude mcp add --transport http github \\
       wizardTarget: 'portal',
       highlight: 'portal',
       contextLevel: 36,
-      duration: 6500,
+      duration: 60000,
     },
     {
       id: 'chain-workflows',
@@ -721,7 +721,7 @@ claude mcp add --transport http github \\
       wizardTarget: 'portal',
       highlight: 'portal',
       contextLevel: 38,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'mcp-safety',
@@ -737,7 +737,7 @@ claude mcp add --transport http github \\
       wizardTarget: 'portal',
       highlight: 'portal',
       contextLevel: 40,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'compound-effect',
@@ -754,7 +754,7 @@ claude mcp add --transport http github \\
       wizardTarget: 'triad',
       highlight: 'triad',
       contextLevel: 42,
-      duration: 7000,
+      duration: 60000,
     },
   ],
 }
@@ -783,7 +783,7 @@ export const CHAPTER_TROUBLESHOOTING: Chapter = {
       wizardTarget: 'circle',
       highlight: 'circle',
       contextLevel: 50,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'reframing',
@@ -794,7 +794,7 @@ export const CHAPTER_TROUBLESHOOTING: Chapter = {
       wizardState: 'thinking',
       wizardTarget: 'center',
       contextLevel: 55,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'input-quality',
@@ -811,7 +811,7 @@ export const CHAPTER_TROUBLESHOOTING: Chapter = {
       wizardTarget: 'grimoire',
       highlight: 'grimoire',
       contextLevel: 45,
-      duration: 5500,
+      duration: 60000,
     },
     {
       id: 'escape-hatches',
@@ -829,7 +829,7 @@ git checkout .         # Nuclear option
       wizardState: 'pointing',
       wizardTarget: 'center',
       contextLevel: 35,
-      duration: 6000,
+      duration: 60000,
     },
     {
       id: 'conclusion',
@@ -840,7 +840,7 @@ git checkout .         # Nuclear option
       wizardTarget: 'center',
       highlight: 'triad',
       contextLevel: 20,
-      duration: 8000,
+      duration: 60000,
     },
   ],
 }
