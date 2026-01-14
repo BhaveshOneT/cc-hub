@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useState, useEffect } from 'react'
 import { useFrame, type RootState } from '@react-three/fiber'
 
 // ============================================================================
@@ -91,4 +91,63 @@ export function useFrameSkipCheck(frameSkip: number = 2) {
   }, [frameSkip])
 
   return shouldAnimate
+}
+
+// ============================================================================
+// TOUR STATE HOOK - Manages onboarding tour visibility and localStorage
+// ============================================================================
+
+const TOUR_STORAGE_KEY = 'cc-hub-tour-completed'
+
+/**
+ * Hook to manage onboarding tour state with localStorage persistence
+ *
+ * Features:
+ * - Auto-starts tour on first visit (after 1s delay for app to render)
+ * - Persists completion state in localStorage
+ * - Provides manual start/stop controls for replay button
+ *
+ * @example
+ * ```tsx
+ * const { runTour, startTour, markTourCompleted } = useTourState()
+ *
+ * <IconButton onClick={startTour}>
+ *   <HelpCircle />
+ * </IconButton>
+ *
+ * <OnboardingTour run={runTour} onComplete={markTourCompleted} />
+ * ```
+ */
+export function useTourState() {
+  const [runTour, setRunTour] = useState(false)
+
+  // Check localStorage on mount and auto-start if first visit
+  useEffect(() => {
+    const hasCompletedTour = localStorage.getItem(TOUR_STORAGE_KEY)
+    if (!hasCompletedTour) {
+      // Delay to let the app render first
+      const timer = setTimeout(() => setRunTour(true), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
+  const markTourCompleted = useCallback(() => {
+    localStorage.setItem(TOUR_STORAGE_KEY, 'true')
+    setRunTour(false)
+  }, [])
+
+  const startTour = useCallback(() => {
+    setRunTour(true)
+  }, [])
+
+  const stopTour = useCallback(() => {
+    setRunTour(false)
+  }, [])
+
+  return {
+    runTour,
+    startTour,
+    stopTour,
+    markTourCompleted,
+  }
 }

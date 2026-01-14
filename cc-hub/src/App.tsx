@@ -4,19 +4,21 @@ import { PerspectiveCamera, Stars } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import {
   Play, Pause, RotateCcw, SkipForward, SkipBack, ChevronRight,
-  BookOpen, Lightbulb, Code, AlertTriangle, Zap, Eye, EyeOff
+  BookOpen, Lightbulb, Code, AlertTriangle, Zap, Eye, EyeOff, HelpCircle
 } from 'lucide-react'
 
 // Components
 import { CameraController } from './components/camera/CameraController'
 import { Workspace } from './components/workspace'
 import { IconButton, ControlButton } from './components/ui'
+import { OnboardingTour } from './components/tour'
 
 // Story
 import { ALL_CHAPTERS, type Chapter, type StoryBeat } from './content/story'
 
 // Centralized configuration
 import { TERMINAL_COLORS } from './lib/terminalTheme'
+import { useTourState } from './lib'
 
 // ============================================================================
 // MAIN APP
@@ -29,6 +31,9 @@ export default function App() {
   const [progress, setProgress] = useState(0)
   const [cinematicMode, setCinematicMode] = useState(true)
   const [showEffects, setShowEffects] = useState(true)
+
+  // Onboarding tour state
+  const { runTour, startTour, markTourCompleted } = useTourState()
 
   const currentChapter = ALL_CHAPTERS[currentChapterIndex]
   const currentBeat = currentChapter.beats[currentBeatIndex]
@@ -125,17 +130,17 @@ export default function App() {
     <div className="h-screen w-screen bg-[#0a0a1a] overflow-hidden relative">
       {/* Main content area - uses CSS Grid, leaves room for fixed bottom bar */}
       <div
-        className="absolute inset-0"
+        className="absolute top-0 left-0 right-0"
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 440px',
-          paddingBottom: '96px', // Space for fixed ChapterTimeline
+          height: 'calc(100vh - 96px)', // Explicit height minus ChapterTimeline
         }}
       >
         {/* 3D Scene - Grid column 1 */}
         <div className="relative overflow-hidden">
           {/* Canvas container - receives direct pointer events for OrbitControls */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0" data-tour="canvas">
             <Suspense fallback={<SceneLoader />}>
               <Canvas
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
@@ -179,9 +184,16 @@ export default function App() {
             {/* View controls - using reusable IconButton component */}
             <div
               className="absolute top-6 right-6 flex gap-2 pointer-events-auto"
+              data-tour="view-controls"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
             >
+              <IconButton
+                onClick={startTour}
+                title="Take a tour"
+              >
+                <HelpCircle className="w-4 h-4" />
+              </IconButton>
               <IconButton
                 active={cinematicMode}
                 onClick={() => setCinematicMode(!cinematicMode)}
@@ -200,7 +212,7 @@ export default function App() {
 
             {/* Context indicator */}
             {currentBeat.contextLevel && currentBeat.contextLevel > 30 && (
-              <div className="absolute bottom-24 left-6">
+              <div className="absolute bottom-24 left-6" data-tour="context-indicator">
                 <div className="bg-stone-900/80 backdrop-blur-md rounded-xl px-4 py-3 border border-purple-500/20">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="text-xs text-purple-300/80 uppercase tracking-wider">
@@ -236,21 +248,28 @@ export default function App() {
       </div>
 
         {/* Story Panel - Grid column 2 */}
-        <StoryPanel
-          chapter={currentChapter}
-          beat={currentBeat}
-          beatIndex={currentBeatIndex}
-          progress={progress}
-          onBeatSelect={(i) => {
-            setCurrentBeatIndex(i)
-            setProgress(0)
-          }}
-        />
+        <div
+          data-tour="story-panel"
+          className="overflow-hidden"
+          style={{ height: 'calc(100vh - 96px)' }}
+        >
+          <StoryPanel
+            chapter={currentChapter}
+            beat={currentBeat}
+            beatIndex={currentBeatIndex}
+            progress={progress}
+            onBeatSelect={(i) => {
+              setCurrentBeatIndex(i)
+              setProgress(0)
+            }}
+          />
+        </div>
       </div>
 
       {/* Fixed Playback Controls - Always visible above ChapterTimeline */}
       <div
         className="fixed z-50 pointer-events-auto"
+        data-tour="playback-controls"
         style={{
           bottom: '120px', // 96px timeline + 24px padding
           left: '24px',
@@ -270,7 +289,7 @@ export default function App() {
       </div>
 
       {/* Fixed Chapter Timeline - Always visible at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 h-24">
+      <div className="fixed bottom-0 left-0 right-0 z-50 h-24" data-tour="chapter-timeline">
         <ChapterTimeline
           chapters={ALL_CHAPTERS}
           currentChapterIndex={currentChapterIndex}
@@ -284,6 +303,14 @@ export default function App() {
           }}
         />
       </div>
+
+      {/* Onboarding Tour */}
+      <OnboardingTour
+        run={runTour}
+        onComplete={markTourCompleted}
+        onPausePlayback={() => setIsPlaying(false)}
+        onResumePlayback={() => setIsPlaying(true)}
+      />
     </div>
   )
 }

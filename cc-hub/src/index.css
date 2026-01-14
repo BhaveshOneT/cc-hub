@@ -318,3 +318,83 @@ canvas {
   .glass { background: white !important; }
   canvas { display: none !important; }
 }
+
+/* ============================================================================
+   ONBOARDING TOUR - react-joyride style overrides
+   ============================================================================ */
+
+/* Ensure tour overlay is above Three.js canvas */
+.react-joyride__overlay {
+  z-index: 9999 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Spotlight styling - glowing purple border effect */
+.react-joyride__spotlight {
+  border-radius: 12px !important;
+  background-color: transparent !important;
+  box-shadow:
+    0 0 0 3px rgba(168, 85, 247, 0.9),
+    0 0 25px 8px rgba(168, 85, 247, 0.6),
+    0 0 50px 15px rgba(168, 85, 247, 0.3) !important;
+  transition: all 0.3s ease-out !important;
+}
+
+/* Ensure the spotlight SVG mask works correctly */
+.react-joyride__spotlight svg {
+  overflow: visible !important;
+}
+
+/* Animated glow pulse */
+@keyframes spotlight-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px rgba(168, 85, 247, 0.9),
+      0 0 25px 8px rgba(168, 85, 247, 0.6),
+      0 0 50px 15px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(168, 85, 247, 1),
+      0 0 35px 12px rgba(168, 85, 247, 0.7),
+      0 0 60px 20px rgba(168, 85, 247, 0.4);
+  }
+}
+
+.react-joyride__spotlight {
+  animation: spotlight-pulse 2s ease-in-out infinite !important;
+}
+
+/* Tour tooltip fade-in animation */
+@keyframes tour-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floater styling and viewport bounds */
+.__floater {
+  animation: tour-fade-in 0.3s ease-out;
+  max-width: calc(100vw - 20px) !important;
+  overflow: visible !important;
+}
+
+/* Ensure floater is above everything and stays in viewport */
+.__floater__open {
+  z-index: 10001 !important;
+}
+
+/* Ensure tooltip body stays within viewport */
+.__floater__body {
+  max-width: calc(100vw - 40px) !important;
+}
+
+/* React-joyride tooltip container - prevent overflow */
+[data-placement] {
+  max-width: min(400px, calc(100vw - 40px)) !important;
+}
