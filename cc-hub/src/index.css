@@ -327,9 +327,11 @@ canvas {
 .react-joyride__overlay {
   z-index: 9999 !important;
   mix-blend-mode: normal !important;
+  /* Smooth overlay transitions */
+  transition: opacity 0.3s ease-out !important;
 }
 
-/* Spotlight styling - glowing purple border effect */
+/* Spotlight styling - glowing purple border effect with smooth movement */
 .react-joyride__spotlight {
   border-radius: 12px !important;
   background-color: transparent !important;
@@ -337,7 +339,14 @@ canvas {
     0 0 0 3px rgba(168, 85, 247, 0.9),
     0 0 25px 8px rgba(168, 85, 247, 0.6),
     0 0 50px 15px rgba(168, 85, 247, 0.3) !important;
-  transition: all 0.3s ease-out !important;
+  /* Smooth position/size transitions between targets */
+  transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-radius 0.3s ease-out,
+              box-shadow 0.3s ease-out !important;
+  will-change: top, left, width, height;
 }
 
 /* Ensure the spotlight SVG mask works correctly */
@@ -365,28 +374,32 @@ canvas {
   animation: spotlight-pulse 2s ease-in-out infinite !important;
 }
 
-/* Tour tooltip fade-in animation */
-@keyframes tour-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Floater styling and viewport bounds */
+/* Floater styling - use transitions instead of animations for smooth step changes */
 .__floater {
-  animation: tour-fade-in 0.3s ease-out;
   max-width: calc(100vw - 20px) !important;
   overflow: visible !important;
+  /* Smooth position transitions between steps */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease-out !important;
+  will-change: transform, opacity;
 }
 
-/* Ensure floater is above everything and stays in viewport */
+/* Initial state when floater appears */
+.__floater:not(.__floater__open) {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Open state - visible, in position, above everything */
 .__floater__open {
+  opacity: 1;
+  transform: translateY(0);
   z-index: 10001 !important;
+}
+
+/* Smooth arrow transitions */
+.__floater__arrow {
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Ensure tooltip body stays within viewport */
