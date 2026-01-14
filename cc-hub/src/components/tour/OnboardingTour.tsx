@@ -40,16 +40,16 @@ const joyrideStyles = {
     boxShadow: '0 0 25px 8px rgba(168, 85, 247, 0.7), 0 0 50px 15px rgba(168, 85, 247, 0.4)',
   },
   overlay: {
-    mixBlendMode: 'normal',
+    mixBlendMode: 'normal' as const,
   },
   beacon: {
-    display: 'none',
+    display: 'none' as const,
   },
   beaconInner: {
-    display: 'none',
+    display: 'none' as const,
   },
   beaconOuter: {
-    display: 'none',
+    display: 'none' as const,
   },
 }
 
