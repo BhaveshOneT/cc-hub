@@ -4,7 +4,7 @@ import { PerspectiveCamera, Stars } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import {
   Play, Pause, RotateCcw, SkipForward, SkipBack, ChevronRight,
-  BookOpen, Lightbulb, Code, AlertTriangle, Zap, Eye, EyeOff, HelpCircle
+  BookOpen, Lightbulb, Code, AlertTriangle, HelpCircle
 } from 'lucide-react'
 
 // Components
@@ -29,8 +29,9 @@ export default function App() {
   const [currentBeatIndex, setCurrentBeatIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [progress, setProgress] = useState(0)
-  const [cinematicMode, setCinematicMode] = useState(true)
-  const [showEffects, setShowEffects] = useState(true)
+  // Always enabled (removed toggle buttons)
+  const cinematicMode = true
+  const showEffects = true
 
   // Onboarding tour state
   const { runTour, startTour, markTourCompleted } = useTourState()
@@ -181,9 +182,9 @@ export default function App() {
               </p>
             </div>
 
-            {/* View controls - using reusable IconButton component */}
+            {/* Tour button */}
             <div
-              className="absolute top-6 right-6 flex gap-2 pointer-events-auto"
+              className="absolute top-6 right-6 pointer-events-auto"
               data-tour="view-controls"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
@@ -193,20 +194,6 @@ export default function App() {
                 title="Take a tour"
               >
                 <HelpCircle className="w-4 h-4" />
-              </IconButton>
-              <IconButton
-                active={cinematicMode}
-                onClick={() => setCinematicMode(!cinematicMode)}
-                title={cinematicMode ? 'Disable cinematic camera' : 'Enable cinematic camera'}
-              >
-                <Zap className="w-4 h-4" />
-              </IconButton>
-              <IconButton
-                active={showEffects}
-                onClick={() => setShowEffects(!showEffects)}
-                title={showEffects ? 'Hide effects' : 'Show effects'}
-              >
-                {showEffects ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
               </IconButton>
             </div>
 

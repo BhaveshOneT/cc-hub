@@ -327,11 +327,9 @@ canvas {
 .react-joyride__overlay {
   z-index: 9999 !important;
   mix-blend-mode: normal !important;
-  /* Smooth overlay transitions */
-  transition: opacity 0.3s ease-out !important;
 }
 
-/* Spotlight styling - glowing purple border effect with smooth movement */
+/* Spotlight styling - glowing purple border, no animations */
 .react-joyride__spotlight {
   border-radius: 12px !important;
   background-color: transparent !important;
@@ -339,14 +337,6 @@ canvas {
     0 0 0 3px rgba(168, 85, 247, 0.9),
     0 0 25px 8px rgba(168, 85, 247, 0.6),
     0 0 50px 15px rgba(168, 85, 247, 0.3) !important;
-  /* Smooth position/size transitions between targets */
-  transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              border-radius 0.3s ease-out,
-              box-shadow 0.3s ease-out !important;
-  will-change: top, left, width, height;
 }
 
 /* Ensure the spotlight SVG mask works correctly */
@@ -354,52 +344,15 @@ canvas {
   overflow: visible !important;
 }
 
-/* Animated glow pulse */
-@keyframes spotlight-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 0 3px rgba(168, 85, 247, 0.9),
-      0 0 25px 8px rgba(168, 85, 247, 0.6),
-      0 0 50px 15px rgba(168, 85, 247, 0.3);
-  }
-  50% {
-    box-shadow:
-      0 0 0 4px rgba(168, 85, 247, 1),
-      0 0 35px 12px rgba(168, 85, 247, 0.7),
-      0 0 60px 20px rgba(168, 85, 247, 0.4);
-  }
-}
-
-.react-joyride__spotlight {
-  animation: spotlight-pulse 2s ease-in-out infinite !important;
-}
-
-/* Floater styling - use transitions instead of animations for smooth step changes */
+/* Floater styling - instant, no animations */
 .__floater {
   max-width: calc(100vw - 20px) !important;
   overflow: visible !important;
-  /* Smooth position transitions between steps */
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.25s ease-out !important;
-  will-change: transform, opacity;
 }
 
-/* Initial state when floater appears */
-.__floater:not(.__floater__open) {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-/* Open state - visible, in position, above everything */
+/* Open state - above everything */
 .__floater__open {
-  opacity: 1;
-  transform: translateY(0);
   z-index: 10001 !important;
-}
-
-/* Smooth arrow transitions */
-.__floater__arrow {
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Ensure tooltip body stays within viewport */

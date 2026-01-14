@@ -109,12 +109,8 @@ export const OnboardingTour = memo(function OnboardingTour({
       tooltipComponent={TourTooltip}
       styles={joyrideStyles}
       floaterProps={{
-        disableAnimation: false,
+        disableAnimation: true,
         offset: 15,
-        wrapperOptions: {
-          offset: -10,
-          position: true,
-        },
       }}
       locale={{
         back: 'Back',
