@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 import Joyride, { STATUS } from 'react-joyride'
-import type { CallBackProps, Styles } from 'react-joyride'
+import type { CallBackProps } from 'react-joyride'
 import { tourSteps } from './tourSteps'
 import { TourTooltip } from './TourTooltip'
 
@@ -25,7 +25,7 @@ interface OnboardingTourProps {
  * - Purple spotlight glow matching theme
  * - High z-index to appear above Three.js canvas
  */
-const joyrideStyles: Styles = {
+const joyrideStyles = {
   options: {
     arrowColor: '#1a1a2e',
     backgroundColor: '#1a1a2e',
