@@ -267,12 +267,13 @@ export const CHAPTER_TOOLS: Chapter = {
       title: 'Quill & Scroll',
       narration: 'The Quill of Alteration rewrites existing text. The Conjuration Scroll creates anew.',
       detail: 'Edit: Surgical text replacement in existing files. Must read the file first. Replaces old_string with new_string. The old_string must be unique in the file - provide enough context. Write: Creates new files or completely overwrites existing ones. Use for new files; prefer Edit for modifications. Both tools require the target file to NOT be open in an editor with unsaved changes.',
-      codeExample: `// Edit example - surgical replacement
-Edit({
-  file: "src/auth.ts",
-  old_string: "const timeout = 30",
-  new_string: "const timeout = 60"
-})`,
+      codeExample: `// Pro pattern: provide enough context for uniqueness
+// BAD - might match multiple places:
+old_string: "return null"
+
+// GOOD - unique with surrounding context:
+old_string: "if (!user.isActive) {\\n    return null\\n  }"
+new_string: "if (!user.isActive) {\\n    throw new InactiveUserError()\\n  }"`,
       showTool: 'edit',
       wizardState: 'working',
       wizardTarget: 'artifacts',
@@ -302,11 +303,13 @@ Edit({
       title: 'Orb & Compass',
       narration: 'The Seeking Orb finds content within files. The Pathfinder Compass locates files by pattern.',
       detail: 'Grep: Ripgrep-powered content search. Regex patterns, file type filtering, context lines. Use to find where something is defined or used. Output modes: content, files_with_matches, count. Glob: File path pattern matching. "**/*.tsx" finds all TSX files. Use to discover file structure, find files by name pattern. Both are read-only and context-efficient compared to reading multiple files.',
-      codeExample: `// Find all uses of AuthContext
-Grep({ pattern: "AuthContext", type: "tsx" })
+      codeExample: `// Hunt dead code: find exports, then check for imports
+Grep({ pattern: "export const|export function", type: "ts" })
+Grep({ pattern: "import.*from.*utils", type: "ts" })
 
-// Find all test files
-Glob({ pattern: "**/*.test.ts" })`,
+// Find all API routes, then their handlers
+Glob({ pattern: "**/api/**/route.ts" })
+Grep({ pattern: "async function (GET|POST|PUT)", type: "ts" })`,
       showTool: 'grep',
       wizardState: 'thinking',
       wizardTarget: 'artifacts',
@@ -447,19 +450,15 @@ export const CHAPTER_SKILLS: Chapter = {
       title: 'The Spell Scroll Format',
       narration: 'Every skill scroll begins with a YAML incantation header - name and description that trigger the magic.',
       detail: 'Every SKILL.md starts with YAML frontmatter. The description is CRITICAL - Claude uses it to decide when to apply the skill. Be specific about trigger conditions. You can also explicitly tell Claude to "utilize x skill" and it will do so.',
-      codeExample: `---
-name: commit-messages
-description: Generate commit messages following our
-team's conventions. Use when creating commits or
-when the user asks for help with commit messages.
----
+      codeExample: `# Skill folder structure with supporting files:
+~/.claude/skills/pr-review/
+  SKILL.md        # Main skill (loaded on trigger)
+  checklist.md    # Reference doc (skill can Read this)
+  examples/       # Example PRs for few-shot learning
 
-# Commit Message Format
-All commits follow conventional commits:
-- feat: new feature
-- fix: bug fix
-- refactor: code change
-Format: \`type(scope): description\``,
+# In SKILL.md, reference supporting files:
+"Read ./checklist.md for the full review criteria"
+"See ./examples/ for good/bad PR patterns"`,
       tips: [
         'The description determines when the skill triggers',
         'Keep skills focused - one skill per workflow',
@@ -493,16 +492,16 @@ Format: \`type(scope): description\``,
       narration: 'Skills extend beyond mere code. Database patterns, meeting notes, even personal workflows.',
       detail: 'Skills aren\'t limited to just code. Engineers have built skills for: Database query patterns specific to their schema, API documentation formats their company uses, Meeting notes templates, Even personal workflows like meal planning. The pattern works for anything where you find yourself repeatedly explaining the same context or preferences to Claude.',
       codeExample: `---
-name: code-review-standards
-description: Apply our team's code review standards
-when reviewing PRs or suggesting improvements.
+name: incident-response
+description: Guide post-incident reviews and RCA docs.
+Trigger when: "incident", "outage", "postmortem", "RCA"
 ---
 
-# Code Review Checklist
-1. Check error handling completeness
-2. Verify test coverage
-3. Review naming conventions
-4. Check for security issues`,
+# Incident Response Framework
+Severity levels: SEV1 (revenue), SEV2 (degraded), SEV3 (minor)
+Timeline format: UTC, 5-minute resolution
+Required sections: Detection, Response, Resolution, Prevention
+Blameless language: "the system" not "the engineer"`,
       wizardState: 'pointing',
       wizardTarget: 'wands',
       highlight: 'wands',
@@ -606,17 +605,17 @@ export const CHAPTER_SUBAGENTS: Chapter = {
       title: 'Custom Familiars',
       narration: 'Create your own spirits. Run /agents to see available subagents and create new ones.',
       detail: 'Add a markdown file to ~/.claude/agents/ (user-level) or .claude/agents/ (project-level). Structure: YAML frontmatter with name, description, and tools. The tools field controls what the subagent can do - Read, Grep, Glob for read-only, add Write, Edit, Bash for implementation agents.',
-      codeExample: `---
-name: security-reviewer
-description: Reviews code for security vulnerabilities.
-tools: Read, Grep, Glob
----
+      codeExample: `# Read-only agent (safe for automated pipelines)
+tools: Read, Grep, Glob           # No write access
 
-You are a security-focused code reviewer. When analyzing:
-1. Check for auth/authz gaps
-2. Look for injection vulnerabilities
-3. Identify data exposure risks
-4. Flag insecure dependencies`,
+# Implementation agent (full access)
+tools: Read, Edit, Write, Bash    # Can make changes
+
+# Model override for complex analysis
+model: opus                       # Use Opus for this agent
+
+# Parallel-safe: run multiple at once
+"Run security-scanner, perf-analyzer, and a11y-checker"`,
       tips: [
         'Restrict tools for safety - security reviewers don\'t need Write',
         '/agents shows all available subagents',
@@ -678,16 +677,14 @@ export const CHAPTER_MCP: Chapter = {
       title: 'Opening Portals',
       narration: 'The ritual to open a new portal. Speak the command, provide the anchor, and the gateway opens.',
       detail: 'The command to add a connector: claude mcp add --transport http <name> <url>. For authentication, add headers: claude mcp add --transport http github https://api.github.com/mcp --header "Authorization: Bearer your-token". Or use the web UI: settings → connectors → find your server → configure → give permissions.',
-      codeExample: `# HTTP transport (recommended for remote)
-claude mcp add --transport http notion https://mcp.notion.com/mcp
+      codeExample: `# Local MCP servers (stdio transport)
+claude mcp add postgres -- npx @anthropic/postgres-mcp
 
-# With authentication
-claude mcp add --transport http github \\
-  https://api.github.com/mcp \\
-  --header "Authorization: Bearer token"
+# SSE transport for real-time servers
+claude mcp add slack --transport sse https://slack-mcp.example.com/sse
 
-# View current connections
-/mcp`,
+# Scope to specific projects only
+claude mcp add --scope project jira -- node ./jira-mcp.js`,
       wizardState: 'working',
       wizardTarget: 'portal',
       highlight: 'portal',
