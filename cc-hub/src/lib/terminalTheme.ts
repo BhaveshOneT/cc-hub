@@ -2,7 +2,7 @@
 // TERMINAL THEME - Anthropic branded colors for Claude Code simulator
 // ============================================================================
 
-import { getBeatTerminalContent } from './terminalContent'
+import { getBeatTerminalContent, getBeatExampleContent } from './terminalContent'
 
 export const TERMINAL_COLORS = {
   // Backgrounds
@@ -191,8 +191,8 @@ export function getTerminalOutput(mode: TerminalMode): string[] {
   return TERMINAL_OUTPUTS[mode] || TERMINAL_OUTPUTS.idle
 }
 
-// Re-export beat content getter for convenience
-export { getBeatTerminalContent }
+// Re-export beat content getters for convenience
+export { getBeatTerminalContent, getBeatExampleContent }
 
 /**
  * Get terminal content for a beat, with fallback to mode-based content.
@@ -213,4 +213,18 @@ export function getTerminalContentForBeat(
   // Fall back to mode-based content
   const mode = getTerminalMode(highlight)
   return getTerminalOutput(mode)
+}
+
+/**
+ * Get example content for a beat if it exists.
+ * Returns null if no example content is available for this beat.
+ */
+export function getExampleContentForBeat(beatId?: string): string[] | null {
+  if (beatId) {
+    const exampleContent = getBeatExampleContent(beatId)
+    if (exampleContent && exampleContent.length > 0) {
+      return exampleContent
+    }
+  }
+  return null
 }

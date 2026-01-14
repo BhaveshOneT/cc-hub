@@ -3,6 +3,7 @@ import { Html } from '@react-three/drei'
 import {
   TERMINAL_COLORS,
   getTerminalContentForBeat,
+  getExampleContentForBeat,
   type TerminalMode,
 } from '../../lib/terminalTheme'
 
@@ -32,6 +33,7 @@ export const TerminalScreen = memo(function TerminalScreen({
 }: TerminalScreenProps) {
   const [displayedLines, setDisplayedLines] = useState<string[]>([])
   const [cursorVisible, setCursorVisible] = useState(true)
+  const [showExample, setShowExample] = useState(false)
   const animationRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const isFirstMount = useRef(true)
 
@@ -40,11 +42,25 @@ export const TerminalScreen = memo(function TerminalScreen({
     e.stopPropagation()
   }
 
-  // Memoize target lines - prioritize beat-specific content, fall back to mode-based
-  const targetLines = useMemo(
-    () => getTerminalContentForBeat(beatId, highlight),
-    [beatId, highlight]
+  // Check if example content exists for this beat
+  const hasExampleContent = useMemo(
+    () => getExampleContentForBeat(beatId) !== null,
+    [beatId]
   )
+
+  // Memoize target lines - use example content if toggled, otherwise use beat-specific content
+  const targetLines = useMemo(() => {
+    if (showExample) {
+      const exampleContent = getExampleContentForBeat(beatId)
+      if (exampleContent) return exampleContent
+    }
+    return getTerminalContentForBeat(beatId, highlight)
+  }, [beatId, highlight, showExample])
+
+  // Reset to concept mode when beat changes
+  useEffect(() => {
+    setShowExample(false)
+  }, [beatId])
 
   // Animate lines appearing when content changes
   useEffect(() => {
@@ -188,6 +204,31 @@ export const TerminalScreen = memo(function TerminalScreen({
           >
             claude-code
           </span>
+
+          {/* Example toggle button - only show when example content exists */}
+          {hasExampleContent && (
+            <button
+              onClick={() => setShowExample(!showExample)}
+              style={{
+                marginLeft: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                border: 'none',
+                fontSize: '18px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                backgroundColor: showExample ? TERMINAL_COLORS.accent : TERMINAL_COLORS.border,
+                color: showExample ? '#ffffff' : TERMINAL_COLORS.textMuted,
+              }}
+            >
+              <span style={{ fontSize: '16px' }}>{showExample ? '📖' : '▶'}</span>
+              <span>{showExample ? 'Concept' : 'Example'}</span>
+            </button>
+          )}
         </div>
 
         {/* Terminal content - scrollable with mouse wheel */}
